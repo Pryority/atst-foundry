@@ -24,6 +24,8 @@ contract AttestationStationTest is Test {
         AttestationStation.AttestationData memory attestation = attestations[
             owner
         ][about][key];
+        AttestationStation.AttestationData[] memory attestationDataList = atst
+            .getAttestations(about);
         bytes memory storedVal = atst.attestations(owner, about, key);
         assertEq(storedVal, val, "Attestation value not stored correctly");
         assertEq(
@@ -31,6 +33,9 @@ contract AttestationStationTest is Test {
             0x0000000000000000000000000000000000000000,
             "About address mismatch"
         );
+        assertEq(attestationDataList[0].about, about, "About address mismatch");
+        assertEq(attestationDataList[0].key, key, "Key mismatch");
+        assertEq(attestationDataList[0].val, val, "Value mismatch");
         vm.stopPrank();
     }
 
